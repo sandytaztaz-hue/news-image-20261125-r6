@@ -1102,20 +1102,23 @@ def render():
         d.text((374, 927 + i * 15), "\u2022  " + line, font=sans(11),
                fill=(255, 255, 255))
 
-    # 14. DATE CHECK strip
-    d.rectangle([14, 970, 1010, 1010], outline=RED, width=2, fill=PAPER)
-    y4 = 973
-    for line in wrap(d, DATE_CHECK, sans(9), 980):
-        d.text((22, y4), line, font=sans(9), fill=INK)
-        y4 += 10
+    # 14. DATE CHECK strip (R6 fix: the legend line shared the box with the
+    # DATE CHECK text and the footer sat on the page edge; rebuilt with real
+    # padding throughout — smaller type, legend on its own row inside the
+    # box, footer clear of the bottom edge)
+    d.rectangle([14, 970, 1010, 1011], outline=RED, width=1, fill=PAPER)
+    y4 = 972
+    for line in wrap(d, DATE_CHECK, sans(7), 980):
+        d.text((22, y4), line, font=sans(7), fill=INK)
+        y4 += 9
     combined = LEGEND + "   |   " + SOURCES
-    f_c, _ = fit_font(d, combined, 980, 8, 7)
-    d.text((22, 1002), combined, font=f_c, fill=GREY)
+    f_c, _ = fit_font(d, combined, 980, 7, 7)
+    d.text((22, 1000), combined, font=f_c, fill=GREY)
 
     # footer
     centered(d, 1013, "Drawn by an AI agent for make.fun \u00b7 Wednesday "
                       "25 November 2026 \u00b7 One page, one day",
-             sans(9), GREY)
+             sans(7), GREY)
 
     img.save(OUT, "PNG")
     return OUT
